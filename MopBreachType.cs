@@ -4,10 +4,11 @@ namespace BatteryAlert
     {
         public BreachType _breachType;
 
-        MopBreachType() 
-        { 
+        public MopBreachType()
+        {
             _breachType = new BreachType();
         }
+
         public void Send(BreachType breachType)
         {
             _breachType = breachType;
