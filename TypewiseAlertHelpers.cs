@@ -2,27 +2,19 @@ using BatteryAlert;
 
 internal static class TypewiseAlertHelpers
 {
+    private static readonly Dictionary<CoolingType, (int lowerLimit, int upperLimit)> CoolingLimits = new Dictionary<CoolingType, (int lowerLimit, int upperLimit)>
+    {
+        { CoolingType.PASSIVE_COOLING, (0, 35) },
+        { CoolingType.HI_ACTIVE_COOLING, (0, 45) },
+        { CoolingType.MED_ACTIVE_COOLING, (0, 40) }
+    };
+
     public static BreachType ClassifyTemperatureBreach(CoolingType coolingType, double temperatureInC)
     {
-        int lowerLimit = 0;
-        int upperLimit = 0;
-        switch (coolingType)
-        {
-            case CoolingType.PASSIVE_COOLING:
-                lowerLimit = 0;
-                upperLimit = 35;
-                break;
-            case CoolingType.HI_ACTIVE_COOLING:
-                lowerLimit = 0;
-                upperLimit = 45;
-                break;
-            case CoolingType.MED_ACTIVE_COOLING:
-                lowerLimit = 0;
-                upperLimit = 40;
-                break;
-        }
-        return InferBreach(temperatureInC, lowerLimit, upperLimit);
+        var limits = CoolingLimits[coolingType];
+        return InferBreach(temperatureInC, limits.lowerLimit, limits.upperLimit);
     }
+
 
     public static BreachType InferBreach(double value, double lowerLimit, double upperLimit)
     {
